@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, Icon, Text } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -23,12 +23,16 @@ const BottomNavigator = () => {
           } else if (route.name === "About") {
             iconName = "exclamation-circle";
           }
-          return <FontAwesome5 name={iconName} size={size} color={color} />;
+          return <Icon as={FontAwesome5} name={iconName} size={size} color={focused ? "primary.600" : color} />;
         },
         tabBarIconStyle: { marginTop: 10 },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          marginBottom: 10,
+        // tabBarLabelStyle: {
+        //   fontSize: 12,
+        //   color: "primary.500",
+        //   marginBottom: 10,
+        // },
+        tabBarLabel: ({children, color, focused}) => {
+          return <Text color={focused ? "primary.600" : color} mb={2}>{children}</Text>
         },
         tabBarStyle: {
           height: 70,
