@@ -25,7 +25,9 @@ class TaskCompletedScreen extends React.Component {
         console.log("Error update status task: in task-completed.js");
         console.error(e.message);
       } finally {
-        this.setState({ completedListLength: this.state.allList.filter((item) => item.isCompleted).length });
+        this.setState({
+          completedListLength: this.state.allList.filter((item) => item.isCompleted).length,
+        });
       }
     });
   };
@@ -54,7 +56,6 @@ class TaskCompletedScreen extends React.Component {
 
   render() {
     const { allList, isLoading, completedListLength } = this.state;
-    console.log(completedListLength);
     return (
       <Box mx={3} mt={3} flex={1}>
         {isLoading ? (
@@ -74,7 +75,11 @@ class TaskCompletedScreen extends React.Component {
               if (item.isCompleted) {
                 return (
                   <Box key={item.title + index.toString()}>
-                    <TaskList data={item} onChecked={() => this.handleStatusChange(index)} />
+                    <TaskList
+                      data={item}
+                      onChecked={() => this.handleStatusChange(index)}
+                      onItemPress={() => this.handleStatusChange(index)}
+                    />
                   </Box>
                 );
               }

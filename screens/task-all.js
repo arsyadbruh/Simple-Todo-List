@@ -145,19 +145,18 @@ class TaskScreen extends React.Component {
         ) : (
           <ScrollView mt={3}>
             {list.map((item, index) => {
-              if (!item.isCompleted) {
                 return (
                   <Box key={item.title + index.toString()}>
                     <TaskList
                       data={item}
                       index={index}
                       deletedIcon={true}
+                      onItemPress={() => this.handleStatusChange(index)}
                       onChecked={() => this.handleStatusChange(index)}
                       onDeleted={() => this.handleDeleteTask(index)}
                     />
                   </Box>
                 );
-              }
             })}
           </ScrollView>
         )}
