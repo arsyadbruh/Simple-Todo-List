@@ -1,16 +1,87 @@
 import React from "react";
-import { Center, Text } from "native-base";
+import { ActivityIndicator } from "react-native";
+
+import { Center, Text, Box, ScrollView, Heading, Divider } from "native-base";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import TaskList from "../components/Task";
 
 class TaskCompletedScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      completedListLength: 0,
+      allList: [],
+      isLoading: true,
+    };
+  }
+
+  handleStatusChange = (index) => {
+    const newList = this.state.allList;
+    newList[index].isCompleted = !newList[index].isCompleted;
+    this.setState({ allList: newList }, () => {
+      try {
+        AsyncStorage.setItem("@task-list", JSON.stringify(this.state.allList));
+      } catch (e) {
+        console.log("Error update status task: in task-completed.js");
+        console.error(e.message);
+      } finally {
+        this.setState({ completedListLength: this.state.allList.filter((item) => item.isCompleted).length });
+      }
+    });
+  };
+
+  getTaskList = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@task-list");
+      if (value !== null) {
+        const allData = JSON.parse(value);
+        const completedData = allData.filter((item) => item.isCompleted).length;
+        this.setState({ allList: allData, completedListLength: completedData });
+      } else {
+        console.log("tidak ada task");
+      }
+    } catch (e) {
+      console.log("Error get task: in task-completed.js");
+      console.error(e);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  componentDidMount() {
+    this.getTaskList();
   }
 
   render() {
+    const { allList, isLoading, completedListLength } = this.state;
+    console.log(completedListLength);
     return (
-      <Center flex={1}>
-        <Text>Ini Screen Task</Text>
-      </Center>
+      <Box mx={3} mt={3} flex={1}>
+        {isLoading ? (
+          <Center flex={1}>
+            <ActivityIndicator size="large" />
+          </Center>
+        ) : completedListLength === 0 ? (
+          <Center flex={1}>
+            <Text fontSize={16} bold={true}>
+              Belum ada daftar yang selesai
+            </Text>
+            <Text fontSize={16}>Segera selesaikan daftarmu!</Text>
+          </Center>
+        ) : (
+          <ScrollView>
+            {allList.map((item, index) => {
+              if (item.isCompleted) {
+                return (
+                  <Box key={item.title + index.toString()}>
+                    <TaskList data={item} onChecked={() => this.handleStatusChange(index)} />
+                  </Box>
+                );
+              }
+            })}
+          </ScrollView>
+        )}
+      </Box>
     );
   }
 }

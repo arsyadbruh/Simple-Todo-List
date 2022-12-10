@@ -151,6 +151,7 @@ class TaskScreen extends React.Component {
                     <TaskList
                       data={item}
                       index={index}
+                      deletedIcon={true}
                       onChecked={() => this.handleStatusChange(index)}
                       onDeleted={() => this.handleDeleteTask(index)}
                     />

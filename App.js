@@ -3,7 +3,7 @@ import { NativeBaseProvider } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {Ionicons, FontAwesome5} from "@expo/vector-icons";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
 import { AboutScreen, TaskCompletedScreen, TaskScreen } from "./screens";
 
@@ -19,7 +19,7 @@ const BottomNavigator = () => {
           if (route.name === "Task") {
             iconName = "tasks";
           } else if (route.name === "Completed") {
-            iconName =  "clipboard-check";
+            iconName = "clipboard-check";
           } else if (route.name === "About") {
             iconName = "exclamation-circle";
           }
@@ -35,9 +35,17 @@ const BottomNavigator = () => {
           borderTopWidth: 0,
         },
       })}>
-      <Tab.Screen name="Task" component={TaskScreen} options={{ unmountOnBlur: true }}/>
-      <Tab.Screen name="Completed" component={TaskCompletedScreen} options={{ unmountOnBlur: true }}/>
-      <Tab.Screen name="About" component={AboutScreen} options={{ unmountOnBlur: true }}/>
+      <Tab.Screen
+        name="Task"
+        component={TaskScreen}
+        options={{ title: "All Task", unmountOnBlur: true }}
+      />
+      <Tab.Screen
+        name="Completed"
+        component={TaskCompletedScreen}
+        options={{ unmountOnBlur: true }}
+      />
+      <Tab.Screen name="About" component={AboutScreen} options={{ unmountOnBlur: true }} />
     </Tab.Navigator>
   );
 };
