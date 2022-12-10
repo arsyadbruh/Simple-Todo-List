@@ -1,7 +1,7 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
-
-import { Center, Text, Box, ScrollView, Heading, Divider } from "native-base";
+import { Center, Text, Box, ScrollView, Heading, Divider, Icon } from "native-base";
+import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TaskList from "../components/Task";
 
@@ -64,6 +64,7 @@ class TaskCompletedScreen extends React.Component {
           </Center>
         ) : completedListLength === 0 ? (
           <Center flex={1}>
+            <Icon as={AntDesign} name="frowno" size={82} color="primary.600" mb={2}/>
             <Text fontSize={16} bold={true}>
               Belum ada daftar yang selesai
             </Text>
